@@ -2,6 +2,8 @@
 """
 ReconSpider - Ferramenta completa de auditoria ofensiva
 Uso exclusivo em domínios próprios ou com autorização.
+
+Desenvolvido por Meng0la
 """
 
 import argparse
@@ -9,17 +11,14 @@ import json
 import sys
 import logging
 import time
+import os
 from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 import requests
 from requests.adapters import HTTPAdapter
-from sympy import arg
 from urllib3.util.retry import Retry
 import urllib3
-
-import os
-import logging
 
 # Define o caminho absoluto para o arquivo de log (no mesmo diretório do script)
 log_file = os.path.join(os.path.dirname(__file__), "reconspider.log")
@@ -35,24 +34,21 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-
-# Teste rápido para verificar se o log está funcionando
 logger.info("Sistema de logging inicializado. Arquivo de log: %s", log_file)
 
 # Suprime warnings de SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Importações corretas 
+# Importações dos módulos locais
 from config import (
     USER_AGENT, DEFAULT_WORDLIST, DEFAULT_USERLIST, DEFAULT_PASSLIST,
     COMMON_ADMIN_PATHS, COMMON_PORTS, MAX_THREADS
 )
 from utils import normalizar_dominio, salvar_resultados
-import logging
 from modules import dorks, crawler, bruteforce, js_analysis, portscan, auth, sql_injection
 
 def banner():
-    """Exibe banner ASCII."""
+    """Exibe banner ASCII com crédito."""
     print(r"""
 ===============================================================================
 Bem-vindo / Welcome / Bienvenido 
@@ -68,11 +64,12 @@ $$ |  $$ |\$$$$$$$\ \$$$$$$$\ \$$$$$$  |$$ |  $$ |\$$$$$$  |$$$$$$$  |$$ |\$$$$$
                                                             $$ |                                        
                                                             $$ |                                        
                                                             \__|                                       
-=======================Criado por Meng0la======================================
+===============================================================================
+Desenvolvido por Meng0la
     """)
 
 def exibir_ajuda():
-    """Exibe ajuda do modo interativo com descrição detalhada dos módulos."""
+    """Exibe ajuda do modo interativo."""
     print("\n" + "AJUDA DO RECONSPIDER".center(60, '━'))
     print("Comandos disponíveis no menu interativo:")
     print("  • Números (1-8) → Ativam os módulos correspondentes")
@@ -80,47 +77,29 @@ def exibir_ajuda():
     print("  • /help ou help → Exibe esta mensagem")
     print("\nMódulos e suas funcionalidades:\n")
     print("1. Google Dorks")
-    print("   - Baixa automaticamente listas do repositório Proviesec.")
-    print("   - Executa buscas no Google com dorks combinadas ao seu domínio.")
-    print("   - Inclui dorks de terceiros (GitHub, Pastebin) para encontrar vazamentos.")
-    print("   - Resultado: URLs expostas, arquivos sensíveis, diretórios abertos.\n")
+    print("   - Baixa listas do repositório Proviesec e busca no Google por exposições.")
     print("2. Crawler + Sitemap")
-    print("   - Analisa sitemap.xml do site (se existir) para extrair URLs.")
-    print("   - Segue links internos (crawling) para mapear páginas, incluindo subdomínios.")
-    print("   - Resultado: lista de URLs acessíveis e estrutura do site.\n")
+    print("   - Mapeia URLs via sitemap.xml e crawling de links internos.")
     print("3. Brute Force de Diretórios")
-    print("   - Testa caminhos comuns (admin, backup, .env) com wordlist.")
-    print("   - Suporta extensões (.php, .html, .txt) e multi-threading.")
-    print("   - Resultado: diretórios e arquivos existentes (status 200, 401, 403, 500).\n")
+    print("   - Testa caminhos comuns com wordlist (suporta extensões).")
     print("4. Análise JavaScript")
-    print("   - Baixa arquivos JS encontrados nas URLs coletadas.")
-    print("   - Busca por endpoints (caminhos) e possíveis segredos (API keys, tokens).")
-    print("   - Resultado: rotas de API e credenciais expostas no front-end.\n")
+    print("   - Extrai endpoints e possíveis segredos de arquivos JS.")
     print("5. Varredura de Portas")
-    print("   - Verifica portas TCP comuns (21,22,25,80,443,3306,8080...).")
-    print("   - Tenta capturar banner do serviço.")
-    print("   - Resultado: portas abertas e serviços identificados.\n")
+    print("   - Verifica portas TCP comuns e tenta obter banner.")
     print("6. Testes de Autenticação")
-    print("   - Detecta páginas de login (formulários com campo password, títulos).")
-    print("   - Identifica campos de usuário/senha para brute force.")
-    print("   - Opcional: realiza brute force de login com wordlists.")
-    print("   - Resultado: URLs de login e credenciais válidas (se encontradas).\n")
+    print("   - Detecta páginas de login e, opcionalmente, realiza brute force.")
     print("7. SQL Injection Avançado")
-    print("   - Testa parâmetros GET e POST com payloads de erro, booleano, time-based e union.")
-    print("   - Compara respostas para identificar vulnerabilidades com nível de confiança.")
-    print("   - Integração opcional com SQLMap para análise aprofundada (dump, técnicas).")
-    print("   - Resultado: possíveis SQL injections e confirmações com SQLMap.\n")
+    print("   - Testa parâmetros GET/POST com payloads e integra SQLMap para exploração.")
     print("8. Todos os módulos")
-    print("   - Executa os módulos 1 a 7 em sequência.")
-    print("   - Para SQL e brute force de login, serão solicitadas confirmações adicionais.\n")
-    print("Parâmetros comuns (configuráveis):")
+    print("   - Executa os módulos 1 a 7 em sequência.\n")
+    print("Parâmetros configuráveis:")
     print("  • Domínio alvo")
-    print("  • Máximo de resultados por consulta (padrão 50)")
-    print("  • Delay entre requisições (padrão 2s) – aumente se houver bloqueios")
-    print("  • Número de threads (padrão 10)")
+    print("  • Máximo de resultados por consulta")
+    print("  • Delay entre requisições")
+    print("  • Número de threads")
     print("  • Arquivo de saída CSV")
-    print("  • Modo verbose (logs detalhados)")
-    print("  • Ignorar erros SSL (para certificados inválidos)")
+    print("  • Modo verbose")
+    print("  • Ignorar erros SSL")
     print("\nUse apenas em domínios próprios ou com autorização!")
     print("━" * 60 + "\n")
 
@@ -146,7 +125,7 @@ def modo_interativo():
             print("Saindo...")
             sys.exit(0)
         elif escolha not in [str(i) for i in range(1,9)]:
-            print("Opção inválida. Digite um número de 1 a 8 ou /help.")
+            print("❌ Opção inválida. Digite um número de 1 a 8 ou /help.")
             continue
         else:
             break
@@ -168,9 +147,22 @@ def modo_interativo():
 
     output = input("Nome do arquivo de saída (padrão auditoria_resultados.csv): ").strip()
     output = output if output else "auditoria_resultados.csv"
+    output = os.path.join(os.path.dirname(__file__), output)  # caminho absoluto
 
     verbose = input("Modo verbose? (s/N): ").strip().lower() == 's'
     ignore_ssl = input("Ignorar erros de certificado SSL? (s/N): ").strip().lower() == 's'
+
+    # Opções avançadas (agressividade)
+    modo_agressivo = input("Modo agressivo (reduz delay, aumenta threads)? (s/N): ").strip().lower() == 's'
+    ignorar_rate_limit = input("Ignorar rate limits (pode causar bloqueios)? (s/N): ").strip().lower() == 's'
+
+    if modo_agressivo:
+        logger.info("Modo agressivo ativado.")
+        delay = max(0.1, delay * 0.5)
+        threads = int(threads * 1.5)
+    if ignorar_rate_limit:
+        logger.warning("Ignorando rate limits! Possível bloqueio.")
+        delay = 0.1
 
     login_bruteforce = False
     sqlmap_path = 'sqlmap'
@@ -202,11 +194,6 @@ def modo_interativo():
     ativar_portscan = escolha in ['5', '8']
     ativar_auth = escolha in ['6', '8']
     ativar_sql = escolha in ['7', '8']
-
-    if arg.aggressive or arg.no_rate_limit:
-        delay = 0
-        # Também pode aumentar threads drasticamente
-        threads = 100
 
     executar_auditoria(
         dominio, max_results, delay, output,
@@ -243,7 +230,7 @@ def executar_auditoria(dominio, max_results, delay, output,
             'portscan': [], 'auth': [], 'sql_injection': []
         }
 
-        #Dorks
+        # Módulo 1: Dorks
         if dorks_on:
             logger.info("=== Módulo: Google Dorks ===")
             dorks_list = dorks.baixar_dorks(dorks.DORK_SOURCES)
@@ -259,7 +246,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                     })
                 time.sleep(delay)
 
-        #Crawler
+        # Módulo 2: Crawler
         if crawler_on:
             logger.info("=== Módulo: Crawler e Sitemap ===")
             urls_sitemap = crawler.obter_sitemap(dominio, session)
@@ -277,7 +264,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                     'detalhes': 'origin: internal link'
                 })
 
-        #Brute Force
+        # Módulo 3: Brute Force
         if bruteforce_on:
             logger.info("=== Módulo: Brute Force de Diretórios ===")
             encontrados = bruteforce.brute_force_paths(dominio, session, DEFAULT_WORDLIST, num_threads=threads)
@@ -288,7 +275,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                     'detalhes': 'via wordlist'
                 })
 
-        #JS
+        # Módulo 4: JS
         if js_on:
             logger.info("=== Módulo: Análise de JavaScript ===")
             urls_js = set()
@@ -326,7 +313,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                         'detalhes': 'encontrado em JS'
                     })
 
-        #Port Scan
+        # Módulo 5: Port Scan
         if portscan_on:
             logger.info("=== Módulo: Varredura de Portas ===")
             portas_abertas = portscan.scan_ports(dominio, COMMON_PORTS, num_threads=threads)
@@ -337,7 +324,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                     'detalhes': banner
                 })
 
-        #Autenticação
+        # Módulo 6: Autenticação
         if auth_on:
             logger.info("=== Módulo: Testes de Autenticação ===")
             paths_teste = COMMON_ADMIN_PATHS.copy()
@@ -373,7 +360,7 @@ def executar_auditoria(dominio, max_results, delay, output,
                     else:
                         logger.warning("Campos de login não identificados automaticamente.")
 
-        # SQL Injection
+        # Módulo 7: SQL Injection
         if sql_on:
             logger.info("=== Módulo: SQL Injection Avançado ===")
             urls_coletadas = set()
@@ -392,23 +379,32 @@ def executar_auditoria(dominio, max_results, delay, output,
                     sql_dbms=sql_dbms,
                     sql_dump=sql_dump
                 )
-                for critico in sql_resultados['criticos']:
+                for critico in sql_resultados.get('criticos', []):
+                    valor = critico.get('url', critico.get('parametro', 'N/A'))
+                    detalhes = json.dumps(critico)
                     resultados_gerais['sql_injection'].append({
                         'tipo': 'sql_injection_critica',
-                        'valor': critico.get('url', critico.get('parametro', 'N/A')),
-                        'detalhes': json.dumps(critico)
+                        'valor': valor,
+                        'detalhes': detalhes
                     })
-                for suspeito in sql_resultados['suspeitos']:
+                for suspeito in sql_resultados.get('suspeitos', []):
                     resultados_gerais['sql_injection'].append({
                         'tipo': 'possivel_sql',
-                        'valor': suspeito['parametro'],
-                        'detalhes': f"score: {suspeito['score']}, payload: {suspeito['payload']}"
+                        'valor': suspeito.get('parametro', 'N/A'),
+                        'detalhes': f"score: {suspeito.get('score')}, payload: {suspeito.get('payload')}"
                     })
-                logger.info(f"SQL Injection: {len(sql_resultados['criticos'])} críticos, {len(sql_resultados['suspeitos'])} suspeitos.")
+                for exp in sql_resultados.get('exploracao', []):
+                    resultados_gerais['sql_injection'].append({
+                        'tipo': 'exploracao_sql',
+                        'valor': exp.get('parametro', 'N/A'),
+                        'detalhes': f"payload: {exp.get('payload')} - resumo: {exp.get('resumo')}"
+                    })
+                logger.info(f"SQL Injection: {len(sql_resultados.get('criticos', []))} críticos, {len(sql_resultados.get('suspeitos', []))} suspeitos.")
 
-            
+        # Salva os resultados (fora de qualquer if)
         salvar_resultados(resultados_gerais, output)
-        logger.info("Auditoria concluída. Verifique o arquivo CSV para detalhes.")
+
+    logger.info("Auditoria concluída. Verifique o arquivo CSV para detalhes.")
 
 def main():
     if len(sys.argv) == 1:
@@ -439,11 +435,15 @@ def main():
                             help='Técnicas SQLMap: B=Boolean, E=Error, U=Union, S=Stacked, T=Time, Q=Inline (padrão: BEUSTQ)')
         parser.add_argument('--sql-dbms', type=str, default=None,
                             help='Banco de dados alvo (ex: mysql, mssql, oracle, postgresql)')
-        parser.add_argument('--aggressive', action='store_true', help='Modo agressivo: remove delays, ignora limites')
-        parser.add_argument('--sql-dump', action='store_true', help='Realizar dump completo dos dados (padrão ativado)')
-        parser.add_argument('--sql-os-shell', action='store_true', help='Tentar obter shell no sistema via SQLMap')
-        parser.add_argument('--generate-exploit', action='store_true', help='Gerar exploits para vulnerabilidades encontradas')
-        parser.add_argument('--no-rate-limit', action='store_true', help='Ignora delays e rate limits (perigoso!)')
+        parser.add_argument('--sql-dump', action='store_true',
+                            help='Executar dump de dados (cuidado!)')
+        # Parâmetros de agressividade
+        parser.add_argument('--aggressive', action='store_true', help='Modo agressivo (reduz delay, aumenta threads)')
+        parser.add_argument('--no-rate-limit', action='store_true', help='Ignorar rate limits (pode causar bloqueios)')
+        parser.add_argument('--sql-level', type=int, default=3, help='Nível SQLMap (1-5)')
+        parser.add_argument('--sql-risk', type=int, default=2, help='Risco SQLMap (1-3)')
+        parser.add_argument('--sql-time-sec', type=int, default=5, help='Delay para time-based')
+        parser.add_argument('--sql-threads', type=int, default=5, help='Threads do SQLMap')
 
         args = parser.parse_args()
         args.dominio = normalizar_dominio(args.dominio)
@@ -454,10 +454,21 @@ def main():
         if args.all:
             args.dorks = args.crawler = args.bruteforce = args.js = args.portscan = args.auth = args.sql = True
 
+        # Ajustes de agressividade
+        delay = args.delay
+        threads = args.threads
+        if args.aggressive:
+            logger.info("Modo agressivo ativado via CLI.")
+            delay = max(0.1, delay * 0.5)
+            threads = int(threads * 1.5)
+        if args.no_rate_limit:
+            logger.warning("Ignorando rate limits via CLI.")
+            delay = 0.1
+
         executar_auditoria(
             args.dominio,
             args.max,
-            args.delay,
+            delay,
             args.output,
             args.dorks,
             args.crawler,
@@ -466,7 +477,7 @@ def main():
             args.portscan,
             args.auth,
             args.sql,
-            args.threads,
+            threads,
             args.ignore_ssl,
             args.login_bruteforce,
             args.sqlmap_path,

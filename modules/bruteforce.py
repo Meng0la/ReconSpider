@@ -11,10 +11,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 def brute_force_paths(dominio: str, session: requests.Session, wordlist: List[str],
-                      extensions: List[str] = None, num_threads: int = MAX_THREADS) -> Set[str]:
-    """Testa caminhos comuns com força bruta."""
+                      extensions: List[str] = None, num_threads: int = 50) -> Set[str]:
+    """Brute force agressivo com muitas threads."""
     if extensions is None:
-        extensions = ['', '.php', '.html', '.txt']
+        extensions = ['', '.php', '.html', '.txt', '.asp', '.aspx', '.jsp', '.do', '.action']
     encontrados = set()
     base_urls = [f"https://{dominio}", f"http://{dominio}"]
     caminhos = [path + ext for path in wordlist for ext in extensions]
@@ -23,7 +23,7 @@ def brute_force_paths(dominio: str, session: requests.Session, wordlist: List[st
         for base in base_urls:
             url = urljoin(base, caminho)
             try:
-                resp = session.get(url, timeout=5, allow_redirects=False)
+                resp = session.get(url, timeout=3, allow_redirects=False)
                 if resp.status_code in [200, 401, 403, 500]:
                     logger.debug(f"Encontrado: {url} [{resp.status_code}]")
                     return url
@@ -37,5 +37,5 @@ def brute_force_paths(dominio: str, session: requests.Session, wordlist: List[st
             resultado = futuro.result()
             if resultado:
                 encontrados.add(resultado)
-    logger.info(f"Brute force: {len(encontrados)} caminhos encontrados.")
+    logger.info(f"Brute force agressivo: {len(encontrados)} caminhos encontrados.")
     return encontrados

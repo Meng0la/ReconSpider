@@ -1,0 +1,119 @@
+RECONSPIDER - COMBINAÇÕES DE ARGUMENTOS
+=========================================
+Ordenadas da mais agressiva (poder total) para a mais leve ou específica.
+Use apenas em ambientes controlados (VM, laboratório, sites próprios) com autorização.
+
+--------------------------------------------------------------------
+1. ⚡ SUPER COMBINAÇÃO – FESTA COMPLETA (MÁXIMA AGRESSIVIDADE)
+   Ativa todos os módulos, SQL com dump, brute force pesado, wordlists externas.
+   Ideal para demonstrações de impacto em VM ou laboratório.
+
+   python main.py --dominio meusite.com.br --all --sql-dump --sql-technique BEUSTQ --sql-dbms mysql --sql-level 5 --sql-risk 3 --sql-time-sec 1 --sql-threads 20 --threads 50 --delay 0.1 --verbose --ignore-ssl --login-bruteforce --userlist C:\wordlists\users.txt --passlist C:\wordlists\rockyou.txt --wordlist C:\wordlists\dirbuster\directory-list-2.3-medium.txt
+
+   ⚠️ Cuidado: Pode sobrecarregar o servidor, gerar muito tráfego e até causar negação de serviço. Use apenas em ambiente isolado.
+
+--------------------------------------------------------------------
+2. 🔥 ATAQUE TOTAL – TODOS OS MÓDULOS COM SQL OFENSIVO (SEM DUMP)
+   Igual ao anterior, mas sem dump de dados (apenas detecção e exploração superficial).
+   Ideal para testes amplos sem extrair dados sensíveis.
+
+   python main.py --dominio meusite.com.br --all --sql-technique BEUSTQ --sql-dbms mysql --sql-level 4 --sql-risk 2 --sql-time-sec 2 --sql-threads 15 --threads 40 --delay 0.2 --verbose --ignore-ssl --login-bruteforce --userlist C:\wordlists\users.txt --passlist C:\wordlists\rockyou.txt
+
+--------------------------------------------------------------------
+3. 🎯 SQL INJECTION PESADO (Foco total em SQL)
+   Ativa crawler + SQL com nível máximo, dump e muitas threads.
+   Ideal para explorar profundamente SQLi em uma aplicação.
+
+   python main.py --dominio meusite.com.br --crawler --sql --sql-dump --sql-technique BEUSTQ --sql-dbms mysql --sql-level 5 --sql-risk 3 --sql-time-sec 1 --sql-threads 20 --delay 0.2 --verbose
+
+--------------------------------------------------------------------
+4. 🔐 BRUTE FORCE DE LOGIN + DIRETÓRIOS + SQL (Médio porte)
+   Combina crawler, brute force de diretórios, autenticação e SQL.
+   Bom para uma auditoria completa em ambiente real (com cautela).
+
+   python main.py --dominio meusite.com.br --crawler --bruteforce --auth --sql --sql-technique BEU --sql-level 3 --sql-risk 2 --sql-threads 10 --threads 20 --delay 0.5 --verbose --login-bruteforce --userlist C:\wordlists\users.txt --passlist C:\wordlists\rockyou.txt
+
+--------------------------------------------------------------------
+5. 📂 BRUTE FORCE DE DIRETÓRIOS PESADO (Wordlist gigante)
+   Testa milhares de caminhos com wordlist externa e muitas threads.
+   Ideal para mapear diretórios e arquivos sensíveis rapidamente.
+
+   python main.py --dominio meusite.com.br --bruteforce --wordlist C:\wordlists\dirbuster\directory-list-2.3-medium.txt --threads 40 --delay 0
+
+--------------------------------------------------------------------
+6. 🔑 BRUTE FORCE DE LOGIN PESADO (Wordlists externas)
+   Detecta páginas de login e ataca com listas enormes de usuários/senhas.
+   Use com wordlists como rockyou.txt (senhas) e uma boa lista de usuários.
+
+   python main.py --dominio meusite.com.br --auth --login-bruteforce --userlist C:\wordlists\users.txt --passlist C:\wordlists\rockyou.txt --threads 50 --delay 0
+
+--------------------------------------------------------------------
+7. 🕷️ CRAWLER + GOOGLE DORKS + JS (Reconhecimento amplo)
+   Mapeia o site via crawler, busca no Google por vazamentos e analisa JS.
+   Ideal para fase de reconhecimento antes de ataques direcionados.
+
+   python main.py --dominio meusite.com.br --dorks --crawler --js --max 50 --delay 2 --verbose
+
+--------------------------------------------------------------------
+8. 📡 SCAN DE PORTAS + CRAWLER (Infraestrutura)
+   Varre portas comuns e mapeia URLs do site.
+   Útil para identificar serviços expostos e superfície de ataque.
+
+   python main.py --dominio meusite.com.br --crawler --portscan --threads 30 --delay 0.5
+
+--------------------------------------------------------------------
+9. 💉 SQL INJECTION RÁPIDO (Apenas técnicas rápidas)
+   Usa apenas técnicas Boolean, Error e Union (sem time-based) para agilizar.
+   Ideal para testes iniciais ou quando o tempo é curto.
+
+   python main.py --dominio meusite.com.br --crawler --sql --sql-technique BEU --sql-level 2 --sql-risk 1 --sql-threads 10 --delay 1
+
+--------------------------------------------------------------------
+10. 🧪 TESTE DE AUTENTICAÇÃO LEVE (Sem brute force)
+    Apenas detecta páginas de login e relata, sem ataques de força bruta.
+    Seguro para ambientes de produção (apenas identificação).
+
+    python main.py --dominio meusite.com.br --auth --verbose
+
+--------------------------------------------------------------------
+11. 🧹 MÓDULO ÚNICO – GOOGLE DORKS (Coleta passiva)
+    Busca no Google por exposições, sem interagir diretamente com o site.
+    Totalmente passivo, seguro para qualquer ambiente.
+
+    python main.py --dominio meusite.com.br --dorks --max 30 --delay 3
+
+--------------------------------------------------------------------
+12. 🧹 MÓDULO ÚNICO – CRAWLER (Mapeamento leve)
+    Apenas segue links internos e coleta URLs, sem brute force.
+    Bom para conhecer a estrutura do site.
+
+    python main.py --dominio meusite.com.br --crawler --max 100 --delay 1
+
+--------------------------------------------------------------------
+13. 🧹 MÓDULO ÚNICO – ANÁLISE JS (Segredos e endpoints)
+    Baixa arquivos JavaScript e busca por chaves e rotas.
+    Útil para descobrir APIs e possíveis vazamentos.
+
+    python main.py --dominio meusite.com.br --js --verbose
+
+--------------------------------------------------------------------
+14. 🧹 MÓDULO ÚNICO – PORT SCAN (Leve)
+    Varre apenas portas comuns, sem paralelismo excessivo.
+    Seguro para uso em produção com autorização.
+
+    python main.py --dominio meusite.com.br --portscan --threads 5
+
+--------------------------------------------------------------------
+15. 🧹 MÓDULO ÚNICO – BRUTE FORCE DE DIRETÓRIOS (Wordlist pequena)
+    Usa wordlist interna (menos agressiva) para testes rápidos.
+
+    python main.py --dominio meusite.com.br --bruteforce --threads 10 --delay 1
+
+--------------------------------------------------------------------
+⚠️ AVISOS IMPORTANTES:
+- Todas as combinações com --sql-dump, --login-bruteforce ou --wordlist externa são extremamente agressivas e devem ser usadas APENAS em laboratório ou com autorização explícita.
+- Ajuste os caminhos das wordlists conforme seu sistema (Windows: C:\... , Linux: /usr/share/wordlists/...).
+- Delay 0 pode causar bloqueio ou sobrecarga; use com cautela.
+- --ignore-ssl ignora certificados inválidos (útil em VMs com HTTPS autoassinado).
+
+Agora escolha a combinação que melhor se encaixa no seu cenário e bons testes!

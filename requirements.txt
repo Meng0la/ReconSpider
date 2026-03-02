@@ -3,3 +3,4 @@ googlesearch-python
 beautifulsoup4
 lxml
 urllib3
+sqlmap

@@ -1,0 +1,99 @@
+2026-03-02 19:31:31,922 - INFO - Sistema de logging inicializado. Arquivo de log: C:\Users\mikap\ReconSpider\reconspider.log
+2026-03-02 19:34:37,590 - INFO - Sistema de logging inicializado. Arquivo de log: C:\Users\mikap\ReconSpider\reconspider.log
+2026-03-02 19:36:02,076 - INFO - Sistema de logging inicializado. Arquivo de log: C:\Users\mikap\ReconSpider\reconspider.log
+2026-03-02 19:36:02,102 - INFO - Iniciando auditoria para testphp.vulnweb.com
+2026-03-02 19:36:02,102 - INFO - === Módulo: Crawler e Sitemap ===
+2026-03-02 19:36:12,288 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd39780>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 19:36:24,366 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd39660>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 19:36:44,416 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd3b040>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 19:36:56,427 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd39780>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 19:37:17,242 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd3b490>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 19:37:29,288 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x2515fd3b4f0>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 19:37:51,603 - INFO - Crawling concluído: 48 páginas encontradas.
+2026-03-02 19:37:51,604 - INFO - === Módulo: SQL Injection Avançado ===
+2026-03-02 19:40:32,222 - INFO - Sistema de logging inicializado. Arquivo de log: C:\Users\mikap\ReconSpider\reconspider.log
+2026-03-02 19:40:32,313 - INFO - Iniciando auditoria para testphp.vulnweb.com
+2026-03-02 19:40:32,314 - INFO - === Módulo: Crawler e Sitemap ===
+2026-03-02 19:40:42,352 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c91279540>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 19:40:54,368 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c91279360>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 19:41:14,410 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c91278c70>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 19:41:26,457 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c91278940>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 19:41:47,118 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c9127a560>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 19:41:59,133 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x19c9127a5c0>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 19:42:20,340 - INFO - Crawling concluído: 48 páginas encontradas.
+2026-03-02 19:42:20,341 - INFO - === Módulo: SQL Injection Avançado ===
+2026-03-02 19:42:30,752 - INFO - Total de alvos para SQL Injection: 64
+2026-03-02 19:42:30,753 - INFO - Testando http://testphp.vulnweb.com/showimage.php (GET)
+2026-03-02 19:43:01,054 - INFO - Executando SQLMap em http://testphp.vulnweb.com/showimage.php
+2026-03-02 19:43:01,094 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:43:01,095 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 19:44:46,712 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 19:44:46,750 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:44:46,752 - INFO - Testando http://testphp.vulnweb.com/showimage.php (GET)
+2026-03-02 19:45:17,141 - INFO - Executando SQLMap em http://testphp.vulnweb.com/showimage.php
+2026-03-02 19:45:17,180 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:45:17,181 - INFO - Testando http://testphp.vulnweb.com/hpp/ (GET)
+2026-03-02 19:45:48,312 - INFO - Executando SQLMap em http://testphp.vulnweb.com/hpp/
+2026-03-02 19:45:48,355 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:45:48,356 - INFO - Testando http://testphp.vulnweb.com/listproducts.php (GET)
+2026-03-02 19:46:19,158 - INFO - Executando SQLMap em http://testphp.vulnweb.com/listproducts.php
+2026-03-02 19:46:19,197 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:46:19,198 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 19:48:04,536 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 19:48:04,571 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:48:04,573 - INFO - Testando http://testphp.vulnweb.com/product.php (GET)
+2026-03-02 19:48:34,906 - INFO - Executando SQLMap em http://testphp.vulnweb.com/product.php
+2026-03-02 19:48:34,941 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:48:34,942 - INFO - Testando http://testphp.vulnweb.com/cart.php (POST)
+2026-03-02 19:49:34,936 - INFO - Executando SQLMap em http://testphp.vulnweb.com/cart.php
+2026-03-02 19:49:34,970 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:49:34,971 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 19:51:19,625 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 19:51:19,667 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:51:19,669 - INFO - Testando http://testphp.vulnweb.com/secured/newuser.php (POST)
+2026-03-02 19:55:20,975 - INFO - Executando SQLMap em http://testphp.vulnweb.com/secured/newuser.php
+2026-03-02 19:55:21,014 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:55:21,016 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 19:57:06,430 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 19:57:06,470 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:57:06,470 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 19:58:52,435 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 19:58:52,473 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:58:52,475 - INFO - Testando http://testphp.vulnweb.com/listproducts.php (GET)
+2026-03-02 19:59:22,312 - INFO - Executando SQLMap em http://testphp.vulnweb.com/listproducts.php
+2026-03-02 19:59:22,352 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 19:59:22,353 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 20:01:07,927 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 20:01:07,958 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:01:07,960 - INFO - Testando http://testphp.vulnweb.com/product.php (GET)
+2026-03-02 20:01:38,946 - INFO - Executando SQLMap em http://testphp.vulnweb.com/product.php
+2026-03-02 20:01:38,984 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:01:38,986 - INFO - Testando http://testphp.vulnweb.com/cart.php (POST)
+2026-03-02 20:02:38,508 - INFO - Executando SQLMap em http://testphp.vulnweb.com/cart.php
+2026-03-02 20:02:38,543 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:02:38,545 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 20:04:23,414 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 20:04:23,458 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:04:23,459 - INFO - Testando http://testphp.vulnweb.com/artists.php (GET)
+2026-03-02 20:04:53,867 - INFO - Executando SQLMap em http://testphp.vulnweb.com/artists.php
+2026-03-02 20:04:53,908 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:04:53,910 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 20:06:40,784 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query
+2026-03-02 20:06:40,808 - ERROR - Erro SQLMap: [WinError 2] O sistema não pode encontrar o arquivo especificado
+2026-03-02 20:06:40,809 - INFO - Testando http://testphp.vulnweb.com/guestbook.php (POST)
+2026-03-02 20:08:22,606 - INFO - Sistema de logging inicializado. Arquivo de log: C:\Users\mikap\ReconSpider\reconspider.log
+2026-03-02 20:08:22,685 - INFO - Iniciando auditoria para testphp.vulnweb.com
+2026-03-02 20:08:22,686 - INFO - === Módulo: Crawler e Sitemap ===
+2026-03-02 20:08:32,725 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d2907586a0>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 20:08:44,743 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d2907588b0>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap.xml
+2026-03-02 20:09:04,768 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d290758b50>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 20:09:16,799 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d290758d60>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /sitemap_index.xml
+2026-03-02 20:09:37,437 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d290759630>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 20:09:49,454 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<HTTPSConnection(host='testphp.vulnweb.com', port=443) at 0x1d2907595d0>, 'Connection to testphp.vulnweb.com timed out. (connect timeout=10)')': /
+2026-03-02 20:10:10,154 - INFO - Crawling concluído: 48 páginas encontradas.
+2026-03-02 20:10:10,155 - INFO - === Módulo: SQL Injection Avançado ===
+2026-03-02 20:10:20,151 - INFO - Total de alvos para SQL Injection: 64
+2026-03-02 20:10:20,151 - INFO - Testando http://testphp.vulnweb.com/showimage.php (GET)
+2026-03-02 20:10:51,352 - INFO - Executando SQLMap em http://testphp.vulnweb.com/showimage.php
+2026-03-02 20:18:09,561 - INFO - Testando http://testphp.vulnweb.com/search.php?test=query (POST)
+2026-03-02 20:19:53,762 - INFO - Executando SQLMap em http://testphp.vulnweb.com/search.php?test=query

@@ -1,17 +1,14 @@
+# modules/crawler.py
 from urllib.parse import urljoin, urlparse
 from typing import Set
 
 import requests
 from bs4 import BeautifulSoup
 
-import logging
-logger = logging.getLogger(__name__)
-
-from config import REQUEST_TIMEOUT
+from config import REQUEST_TIMEOUT, USER_AGENT  # import adicionado
 from utils import logger
 
 def obter_sitemap(dominio: str, session: requests.Session) -> Set[str]:
-    """Tenta baixar e parsear sitemap.xml."""
     urls = set()
     base_urls = [f"https://{dominio}", f"http://{dominio}"]
     for base in base_urls:
@@ -29,14 +26,16 @@ def obter_sitemap(dominio: str, session: requests.Session) -> Set[str]:
                 continue
     return urls
 
-def crawl(dominio: str, session: requests.Session, max_paginas: int = 50) -> Set[str]:
-    """Crawl simples que segue links internos, incluindo subdomínios."""
+def crawl(dominio: str, session: requests.Session, max_paginas: int = 999999) -> Set[str]:
+    """
+    Crawl sem limite de páginas (max_paginas padrão enorme).
+    """
     base_urls = [f"https://{dominio}", f"http://{dominio}"]
     visitadas = set()
     fila = list(base_urls)
     encontradas = set()
 
-    while fila and len(visitadas) < max_paginas:
+    while fila:
         url = fila.pop(0)
         if url in visitadas:
             continue
@@ -54,6 +53,7 @@ def crawl(dominio: str, session: requests.Session, max_paginas: int = 50) -> Set
                 if parsed.hostname and (parsed.hostname == dominio or parsed.hostname.endswith('.' + dominio)):
                     if full_url not in visitadas and full_url not in fila:
                         fila.append(full_url)
+            # Se ultrapassar limite, ainda continua (não paramos)
         except Exception as e:
             logger.debug(f"Erro ao acessar {url}: {e}")
     logger.info(f"Crawling concluído: {len(encontradas)} páginas encontradas.")

@@ -14,6 +14,7 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 import requests
 from requests.adapters import HTTPAdapter
+from sympy import arg
 from urllib3.util.retry import Retry
 import urllib3
 
@@ -201,6 +202,11 @@ def modo_interativo():
     ativar_portscan = escolha in ['5', '8']
     ativar_auth = escolha in ['6', '8']
     ativar_sql = escolha in ['7', '8']
+
+    if arg.aggressive or arg.no_rate_limit:
+        delay = 0
+        # Também pode aumentar threads drasticamente
+        threads = 100
 
     executar_auditoria(
         dominio, max_results, delay, output,
@@ -433,8 +439,11 @@ def main():
                             help='Técnicas SQLMap: B=Boolean, E=Error, U=Union, S=Stacked, T=Time, Q=Inline (padrão: BEUSTQ)')
         parser.add_argument('--sql-dbms', type=str, default=None,
                             help='Banco de dados alvo (ex: mysql, mssql, oracle, postgresql)')
-        parser.add_argument('--sql-dump', action='store_true',
-                            help='Executar dump de dados (cuidado!)')
+        parser.add_argument('--aggressive', action='store_true', help='Modo agressivo: remove delays, ignora limites')
+        parser.add_argument('--sql-dump', action='store_true', help='Realizar dump completo dos dados (padrão ativado)')
+        parser.add_argument('--sql-os-shell', action='store_true', help='Tentar obter shell no sistema via SQLMap')
+        parser.add_argument('--generate-exploit', action='store_true', help='Gerar exploits para vulnerabilidades encontradas')
+        parser.add_argument('--no-rate-limit', action='store_true', help='Ignora delays e rate limits (perigoso!)')
 
         args = parser.parse_args()
         args.dominio = normalizar_dominio(args.dominio)

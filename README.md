@@ -55,7 +55,7 @@ responsabilizam por qualquer uso indevido.
 
 Clonar o repositório:
 
-    git clone https://github.com/seu-usuario/reconspider.git
+    git clone https://github.com/Meng0la/ReconSpider.git
     cd reconspider
 
 Criar ambiente virtual:
@@ -164,7 +164,7 @@ assume no responsibility for misuse.
 
 Clone repository:
 
-    git clone https://github.com/your-username/reconspider.git
+    git clone https://github.com/Meng0la/ReconSpider.git
     cd reconspider
 
 Create virtual environment:

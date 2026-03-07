@@ -1,221 +1,194 @@
-# ReconSpider
+# 🕷️ ReconSpider
 
-![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-academic--project-orange)
-![Security
-Research](https://img.shields.io/badge/domain-cybersecurity-informational)
+![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+![Security](https://img.shields.io/badge/Security-Penetration%20Testing-red)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-------------------------------------------------------------------------
+**ReconSpider** is a modular offensive security reconnaissance framework
+written in Python.
 
-## 🇧🇷 Versão em Português
+It was designed for **authorized penetration testing, red team research,
+and defensive security analysis**, helping security researchers identify
+**accidental exposures, misconfigurations, and vulnerabilities** in web
+applications.
 
-### Visão Geral
-
-O ReconSpider é um framework modular de auditoria de segurança
-desenvolvido em Python para análise controlada de superfícies web em
-ambientes autorizados.
-
-Ele integra técnicas estruturadas de:
-
--   OSINT controlado\
--   Crawling e enumeração de URLs\
--   Descoberta de diretórios\
--   Análise estática de JavaScript\
--   Inspeção de portas TCP\
--   Análise de superfícies de autenticação\
--   Detecção heurística de possíveis vulnerabilidades SQL Injection (com
-    integração opcional ao SQLMap)
-
-O objetivo principal do projeto é acadêmico e defensivo, permitindo a
-identificação preventiva de exposições antes que possam ser exploradas.
+> "If you're going to live with yourself until the end, it's better to
+> be enchanted by what you do."\
+> --- Clóvis de Barros
 
 ------------------------------------------------------------------------
 
-### Aviso Legal
+# ⚠️ Legal Disclaimer
 
-Esta ferramenta deve ser utilizada exclusivamente em domínios próprios,
-ambientes de laboratório ou mediante autorização formal.
+This tool must ONLY be used on systems that:
 
-O uso não autorizado pode violar legislações vigentes. Os autores não se
-responsabilizam por qualquer uso indevido.
+-   You own, or\
+-   You have explicit written authorization to test.
 
-------------------------------------------------------------------------
+Unauthorized use may violate laws and regulations.
 
-### Instalação
-
-#### Requisitos
-
--   Python 3.8 ou superior
--   pip
--   (Opcional) SQLMap instalado no sistema
-
-#### Passos
-
-Clonar o repositório:
-
-    git clone https://github.com/Meng0la/ReconSpider.git
-    cd reconspider
-
-Criar ambiente virtual:
-
-Linux / macOS:
-
-    python -m venv venv
-    source venv/bin/activate
-
-Windows:
-
-    python -m venv venv
-    venv\Scripts\activate
-
-Instalar dependências:
-
-    pip install -r requirements.txt
+The author assumes **no responsibility** for misuse or damages caused by
+this software.
 
 ------------------------------------------------------------------------
 
-### Execução
+# 🚀 Features
 
-Modo Interativo:
+  -----------------------------------------------------------------------
+  Module                 Description
+  ---------------------- ------------------------------------------------
+  Google Dorks           Searches Google for exposed files, directories,
+                         and third‑party leaks.
 
-    python main.py
+  Crawler + Sitemap      Extracts URLs from sitemap.xml and crawls
+                         internal links.
 
-Modo CLI:
+  Directory Bruteforce   Tests common directories and files using
+                         wordlists.
 
-    python main.py --dominio exemplo.com [opções]
+  JavaScript Analysis    Extracts endpoints, API routes, and potential
+                         secrets.
 
-------------------------------------------------------------------------
+  Port Scanning          Scans common TCP ports and performs banner
+                         grabbing.
 
-### Argumentos Principais
+  Authentication Testing Detects login pages and can perform brute‑force
+                         testing.
 
---dominio DOMINIO\
---dorks\
---crawler\
---bruteforce\
---js\
---portscan\
---auth\
---sql\
---all
-
-Configurações adicionais:
-
---max\
---delay\
---output\
---threads\
---verbose\
---ignore-ssl
+  Advanced SQL Injection Tests parameters and integrates SQLMap for
+                         exploitation.
+  -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
 
-### Estrutura do Projeto
+# 📦 Installation
 
-reconspider/ │ ├── main.py ├── config.py ├── utils.py ├──
-requirements.txt │ ├── modules/ │ ├── dorks.py │ ├── crawler.py │ ├──
-bruteforce.py │ ├── js_analysis.py │ ├── portscan.py │ ├── auth.py │ └──
-sql_injection.py │ └── README.md
-
-------------------------------------------------------------------------
-
-## 🇺🇸 English Version
-
-### Overview
-
-ReconSpider is a modular security auditing framework developed in Python
-for controlled web surface analysis in authorized environments.
-
-It integrates structured techniques including:
-
--   Controlled OSINT discovery\
--   Website crawling and URL enumeration\
--   Directory discovery\
--   Static JavaScript analysis\
--   TCP port inspection\
--   Authentication surface analysis\
--   Heuristic SQL Injection detection (optional SQLMap integration)
-
-The primary objective of this project is academic and defensive
-cybersecurity research.
-
-------------------------------------------------------------------------
-
-### Legal Notice
-
-This tool must be used exclusively on domains you own or where explicit
-authorization has been granted.
-
-Unauthorized usage may violate local or international laws. The authors
-assume no responsibility for misuse.
-
-------------------------------------------------------------------------
-
-### Installation
-
-#### Requirements
+Requirements:
 
 -   Python 3.8+
 -   pip
--   (Optional) SQLMap installed and accessible via PATH
-
-#### Setup
+-   Optional: SQLMap
 
 Clone repository:
 
-    git clone https://github.com/Meng0la/ReconSpider.git
-    cd reconspider
+``` bash
+git clone https://github.com/Meng0la/ReconSpider.git
+cd ReconSpider
+```
 
 Create virtual environment:
 
-Linux / macOS:
+``` bash
+python -m venv venv
+```
 
-    python -m venv venv
-    source venv/bin/activate
+Activate environment:
 
-Windows:
+Linux / macOS
 
-    python -m venv venv
-    venv\Scripts\activate
+``` bash
+source venv/bin/activate
+```
+
+Windows
+
+``` bash
+venv\Scripts\activate
+```
 
 Install dependencies:
 
-    pip install -r requirements.txt
+``` bash
+pip install -r requirements.txt
+```
 
 ------------------------------------------------------------------------
 
-### Execution
+# 🎮 Usage
 
-Interactive Mode:
+Interactive mode:
 
-    python main.py
+``` bash
+python main.py
+```
 
-CLI Mode:
+CLI mode:
 
-    python main.py --dominio example.com [options]
-
-------------------------------------------------------------------------
-
-### Output
-
-Results are exported as CSV with the following structure:
-
-module, type, value, details, timestamp
+``` bash
+python main.py --dominio example.com
+```
 
 ------------------------------------------------------------------------
 
-### Technical Notes
+# 📋 CLI Arguments
 
--   Google-based modules may encounter HTTP 429 rate limits.
--   SQL module requires parameterized URLs.
--   SQLMap integration is optional.
--   Increase --delay in real environments to avoid blocking.
+  Argument       Description
+  -------------- -------------------------------
+  --dominio      Target domain
+  --dorks        Enable Google dorks
+  --crawler      Enable crawler
+  --bruteforce   Directory brute force
+  --js           JavaScript analysis
+  --portscan     Port scanning
+  --auth         Authentication tests
+  --sql          SQL injection module
+  --all          Run all modules
+  --threads      Number of threads
+  --delay        Delay between requests
+  --output       Output CSV file
+  --verbose      Verbose logging
+  --ignore-ssl   Ignore SSL certificate errors
 
 ------------------------------------------------------------------------
 
-## License
+# 📄 Output
 
-This project is distributed under the MIT License.\
-You may modify and use it for academic and authorized security research
-purposes.
+Results are exported in CSV format.
+
+Columns:
+
+-   modulo
+-   tipo
+-   valor
+-   detalhes
+-   timestamp
+
+------------------------------------------------------------------------
+
+# ⚙️ Technical Notes
+
+Google requests may hit rate limits.
+
+Increase delay if needed:
+
+``` bash
+--delay 5
+```
+
+SQL injection requires parameterized URLs such as:
+
+    https://target.com/product?id=1
+
+------------------------------------------------------------------------
+
+# 🤝 Contributing
+
+Pull requests and suggestions are welcome.
+
+Please keep code clean and documented.
+
+------------------------------------------------------------------------
+
+# 📄 License
+
+MIT License
+
+------------------------------------------------------------------------
+
+# 👨‍💻 Author
+
+Gabriel Mengue Barros\
+Security Researcher
+
+GitHub: https://github.com/Meng0la

@@ -17,6 +17,22 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; rv:109.0) Gecko/20100101 Firefox/121.0"
 ]
 
+def dorks_agressivo(dominio, max_results=100, delay=2):
+    """
+    Usa múltiplos User-Agents e proxies (opcional) para evitar 429.
+    """
+    user_agents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36...',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15...',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36...'
+    ]
+
+    headers = {
+        'User-Agent': random.choice(user_agents),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    }
+
+
 def baixar_dorks(urls: List[str]) -> List[str]:
     dorks_map = OrderedDict()
     headers = {'User-Agent': random.choice(USER_AGENTS)}

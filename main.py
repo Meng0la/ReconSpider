@@ -195,32 +195,37 @@ def modo_interativo():
     ativar_auth = escolha in ['6', '8']
     ativar_sql = escolha in ['7', '8']
 
+    # No modo interativo, usamos a wordlist padrão (poderíamos permitir entrada de arquivo, mas simplificado)
     executar_auditoria(
         dominio, max_results, delay, output,
         ativar_dorks, ativar_crawler, ativar_bruteforce,
         ativar_js, ativar_portscan, ativar_auth, ativar_sql,
         threads, ignore_ssl, login_bruteforce, sqlmap_path,
         DEFAULT_USERLIST, DEFAULT_PASSLIST,
-        sql_technique=sql_technique, sql_dbms=sql_dbms, sql_dump=sql_dump
+        sql_technique=sql_technique, sql_dbms=sql_dbms, sql_dump=sql_dump,
+        wordlist=DEFAULT_WORDLIST  # no modo interativo, wordlist padrão
     )
 
 def executar_auditoria(dominio, max_results, delay, output,
                        dorks_on, crawler_on, bruteforce_on, js_on, portscan_on, auth_on, sql_on,
                        threads, ignore_ssl=False, login_bruteforce=False, sqlmap_path='sqlmap',
                        userlist=None, passlist=None,
-                       sql_technique='BEUSTQ', sql_dbms=None, sql_dump=False):
+                       sql_technique='BEUSTQ', sql_dbms=None, sql_dump=False,
+                       wordlist=None):  # NOVO PARÂMETRO wordlist
     """Executa a auditoria com base nos módulos selecionados."""
     if userlist is None:
         userlist = DEFAULT_USERLIST
     if passlist is None:
         passlist = DEFAULT_PASSLIST
+    if wordlist is None:
+        wordlist = DEFAULT_WORDLIST  # fallback para a padrão
 
     logger.info(f"Iniciando auditoria para {dominio}")
 
     with requests.Session() as session:
         session.verify = not ignore_ssl
         retry = Retry(total=2, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
-        adapter = HTTPAdapter(max_retries=retry)
+        adapter = HTTPAdapter(pool_connections=50, pool_maxsize=50, max_retries=retry)  # pool maior
         session.mount('http://', adapter)
         session.mount('https://', adapter)
         session.headers.update({'User-Agent': USER_AGENT})
@@ -267,7 +272,8 @@ def executar_auditoria(dominio, max_results, delay, output,
         # Módulo 3: Brute Force
         if bruteforce_on:
             logger.info("=== Módulo: Brute Force de Diretórios ===")
-            encontrados = bruteforce.brute_force_paths(dominio, session, DEFAULT_WORDLIST, num_threads=threads)
+            # Usa a wordlist recebida
+            encontrados = bruteforce.brute_force_paths(dominio, session, wordlist, num_threads=threads)
             for url in encontrados:
                 resultados_gerais['bruteforce'].append({
                     'tipo': 'path_encontrado',
@@ -423,7 +429,7 @@ def main():
         parser.add_argument('--max', type=int, default=50, help='Máx resultados por dork (padrão 50)')
         parser.add_argument('--delay', type=float, default=2.0, help='Delay entre requisições (padrão 2s)')
         parser.add_argument('--output', default='auditoria_resultados.csv', help='Arquivo CSV de saída')
-        parser.add_argument('--wordlist', nargs='+', default=DEFAULT_WORDLIST, help='Wordlist para brute force')
+        parser.add_argument('--wordlist', nargs='+', default=DEFAULT_WORDLIST, help='Wordlist para brute force (lista inline)')
         parser.add_argument('--threads', type=int, default=MAX_THREADS, help='Número de threads')
         parser.add_argument('--verbose', action='store_true', help='Log detalhado')
         parser.add_argument('--ignore-ssl', action='store_true', help='Ignorar erros de certificado SSL')
@@ -431,6 +437,7 @@ def main():
         parser.add_argument('--sqlmap-path', type=str, default='sqlmap', help='Caminho do SQLMap')
         parser.add_argument('--userlist', nargs='+', default=DEFAULT_USERLIST, help='Lista de usuários')
         parser.add_argument('--passlist', nargs='+', default=DEFAULT_PASSLIST, help='Lista de senhas')
+        parser.add_argument('--wordlist-file', type=str, help='Arquivo com wordlist para brute force (uma por linha)')
         parser.add_argument('--sql-technique', type=str, default='BEUSTQ',
                             help='Técnicas SQLMap: B=Boolean, E=Error, U=Union, S=Stacked, T=Time, Q=Inline (padrão: BEUSTQ)')
         parser.add_argument('--sql-dbms', type=str, default=None,
@@ -447,6 +454,19 @@ def main():
 
         args = parser.parse_args()
         args.dominio = normalizar_dominio(args.dominio)
+
+        # Carregar wordlist: prioridade para --wordlist-file, depois --wordlist, depois padrão
+        wordlist = DEFAULT_WORDLIST
+        if args.wordlist_file:
+            try:
+                with open(args.wordlist_file, 'r', encoding='utf-8') as f:
+                    wordlist = [linha.strip() for linha in f if linha.strip()]
+                logger.info(f"Wordlist carregada do arquivo {args.wordlist_file}: {len(wordlist)} entradas")
+            except Exception as e:
+                logger.error(f"Erro ao ler wordlist file: {e}")
+                sys.exit(1)
+        elif args.wordlist:
+            wordlist = args.wordlist
 
         if args.verbose:
             logger.setLevel(logging.DEBUG)
@@ -485,7 +505,8 @@ def main():
             args.passlist,
             sql_technique=args.sql_technique,
             sql_dbms=args.sql_dbms,
-            sql_dump=args.sql_dump
+            sql_dump=args.sql_dump,
+            wordlist=wordlist  # Agora passamos a wordlist corretamente
         )
 
 if __name__ == '__main__':

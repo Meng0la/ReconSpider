@@ -1,91 +1,91 @@
+    ██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗███████╗██████╗ ██╗██████╗ ███████╗██████╗
+    ██╔══██╗██╔════╝██╔════╝██╔═══██╗████╗  ██║██╔════╝██╔══██╗██║██╔══██╗██╔════╝██╔══██╗
+    ██████╔╝█████╗  ██║     ██║   ██║██╔██╗ ██║█████╗  ██████╔╝██║██████╔╝█████╗  ██████╔╝
+    ██╔══██╗██╔══╝  ██║     ██║   ██║██║╚██╗██║██╔══╝  ██╔══██╗██║██╔══██╗██╔══╝  ██╔══██╗
+    ██║  ██║███████╗╚██████╗╚██████╔╝██║ ╚████║███████╗██║  ██║██║██║  ██║███████╗██║  ██║
+    ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+
+# ReconSpider
+
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![RedTeam](https://img.shields.io/badge/Red%20Team-Tool-red)
+![CyberSecurity](https://img.shields.io/badge/CyberSecurity-Offensive%20Security-black)
+![Pentest](https://img.shields.io/badge/Pentest-Reconnaissance-green)
+![Status](https://img.shields.io/badge/status-active-success)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+    [ ReconSpider ] > Framework de Reconhecimento Ofensivo
+    [ Autor ]      > Meng0la
+    [ Linguagem ]  > Python
+    [ Propósito ]  > Red Team | Pentest | Pesquisa em Segurança
+
+------------------------------------------------------------------------
+
 # 🕷️ ReconSpider
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Security](https://img.shields.io/badge/Security-Penetration%20Testing-red)
-![Status](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-green)
+**ReconSpider** é um framework de **reconhecimento ofensivo para
+segurança cibernética**, escrito em Python.
 
-**ReconSpider** is a modular offensive security reconnaissance framework
-written in Python.
+A ferramenta foi projetada para:
 
-It was designed for **authorized penetration testing, red team research,
-and defensive security analysis**, helping security researchers identify
-**accidental exposures, misconfigurations, and vulnerabilities** in web
-applications.
+-   Red Team
+-   Pentest autorizado
+-   Pesquisa em segurança ofensiva
+-   Descoberta de exposições acidentais
 
-> "If you're going to live with yourself until the end, it's better to
-> be enchanted by what you do."\
-> --- Clóvis de Barros
+O objetivo é **mapear superfícies de ataque** em aplicações web.
 
 ------------------------------------------------------------------------
 
-# ⚠️ Legal Disclaimer
+# ⚠️ Aviso Legal
 
-This tool must ONLY be used on systems that:
+    USO EXCLUSIVO PARA TESTES AUTORIZADOS
 
--   You own, or\
--   You have explicit written authorization to test.
+Esta ferramenta deve ser utilizada **somente** em:
 
-Unauthorized use may violate laws and regulations.
+-   sistemas que você possui
+-   sistemas que você tem autorização explícita para testar
 
-The author assumes **no responsibility** for misuse or damages caused by
-this software.
+Uso não autorizado pode violar leis.
 
-------------------------------------------------------------------------
-
-# 🚀 Features
-
-  -----------------------------------------------------------------------
-  Module                 Description
-  ---------------------- ------------------------------------------------
-  Google Dorks           Searches Google for exposed files, directories,
-                         and third‑party leaks.
-
-  Crawler + Sitemap      Extracts URLs from sitemap.xml and crawls
-                         internal links.
-
-  Directory Bruteforce   Tests common directories and files using
-                         wordlists.
-
-  JavaScript Analysis    Extracts endpoints, API routes, and potential
-                         secrets.
-
-  Port Scanning          Scans common TCP ports and performs banner
-                         grabbing.
-
-  Authentication Testing Detects login pages and can perform brute‑force
-                         testing.
-
-  Advanced SQL Injection Tests parameters and integrates SQLMap for
-                         exploitation.
-  -----------------------------------------------------------------------
+O autor **não se responsabiliza por uso indevido**.
 
 ------------------------------------------------------------------------
 
-# 📦 Installation
+# ⚡ Módulos do ReconSpider
 
-Requirements:
+  Módulo                  Função
+  ----------------------- ----------------------------------------------
+  Google Dorks            Busca arquivos sensíveis indexados no Google
+  Crawler                 Descobre páginas internas automaticamente
+  Sitemap Parser          Extrai rotas do sitemap.xml
+  Directory Bruteforce    Descobre diretórios ocultos
+  JavaScript Analyzer     Extrai endpoints e possíveis segredos
+  Port Scanner            Varredura de portas abertas
+  Login Analyzer          Detecta formulários de autenticação
+  SQL Injection Scanner   Testa parâmetros GET/POST
+  SQLMap Integration      Exploração profunda de banco de dados
 
--   Python 3.8+
--   pip
--   Optional: SQLMap
+------------------------------------------------------------------------
 
-Clone repository:
+# 📦 Instalação
+
+Clone o projeto:
 
 ``` bash
 git clone https://github.com/Meng0la/ReconSpider.git
 cd ReconSpider
 ```
 
-Create virtual environment:
+Crie ambiente virtual:
 
 ``` bash
 python -m venv venv
 ```
 
-Activate environment:
+Ative o ambiente:
 
-Linux / macOS
+Linux / Mac
 
 ``` bash
 source venv/bin/activate
@@ -97,7 +97,7 @@ Windows
 venv\Scripts\activate
 ```
 
-Install dependencies:
+Instale dependências:
 
 ``` bash
 pip install -r requirements.txt
@@ -105,90 +105,88 @@ pip install -r requirements.txt
 
 ------------------------------------------------------------------------
 
-# 🎮 Usage
+# ⚙️ Uso
 
-Interactive mode:
+Modo interativo:
 
 ``` bash
 python main.py
 ```
 
-CLI mode:
+Modo CLI:
 
 ``` bash
-python main.py --dominio example.com
+python main.py --dominio alvo.com
 ```
 
 ------------------------------------------------------------------------
 
-# 📋 CLI Arguments
+# 🔥 Exemplos de Uso
 
-  Argument       Description
-  -------------- -------------------------------
-  --dominio      Target domain
-  --dorks        Enable Google dorks
-  --crawler      Enable crawler
-  --bruteforce   Directory brute force
-  --js           JavaScript analysis
-  --portscan     Port scanning
-  --auth         Authentication tests
-  --sql          SQL injection module
-  --all          Run all modules
-  --threads      Number of threads
-  --delay        Delay between requests
-  --output       Output CSV file
-  --verbose      Verbose logging
-  --ignore-ssl   Ignore SSL certificate errors
+## Reconhecimento completo
+
+``` bash
+python main.py --dominio alvo.com --all
+```
+
+## Recon + JS Analysis
+
+``` bash
+python main.py --dominio alvo.com --crawler --js
+```
+
+## SQL Injection
+
+``` bash
+python main.py --dominio alvo.com --sql
+```
+
+## Bruteforce de diretórios
+
+``` bash
+python main.py --dominio alvo.com --bruteforce
+```
 
 ------------------------------------------------------------------------
 
 # 📄 Output
 
-Results are exported in CSV format.
+Resultados são exportados em CSV:
 
-Columns:
-
--   modulo
--   tipo
--   valor
--   detalhes
--   timestamp
+    modulo,tipo,valor,detalhes,timestamp
+    crawler,url_encontrada,https://site/login,200,2026-03-07
 
 ------------------------------------------------------------------------
 
-# ⚙️ Technical Notes
+# 🧠 Filosofia
 
-Google requests may hit rate limits.
+    Eu não posso saber tudo.
+    Mas eu fuço até descobrir.
 
-Increase delay if needed:
+Segurança ofensiva é sobre:
 
-``` bash
---delay 5
-```
-
-SQL injection requires parameterized URLs such as:
-
-    https://target.com/product?id=1
+-   curiosidade
+-   exploração
+-   engenharia reversa
+-   aprendizado constante
 
 ------------------------------------------------------------------------
 
-# 🤝 Contributing
-
-Pull requests and suggestions are welcome.
-
-Please keep code clean and documented.
-
-------------------------------------------------------------------------
-
-# 📄 License
-
-MIT License
-
-------------------------------------------------------------------------
-
-# 👨‍💻 Author
+# 👨‍💻 Autor
 
 Gabriel Mengue Barros\
 Security Researcher
 
-GitHub: https://github.com/Meng0la
+GitHub:
+
+https://github.com/Meng0la
+
+------------------------------------------------------------------------
+
+# ⭐ Apoie o Projeto
+
+Se você gostou da ferramenta:
+
+    ⭐ dê uma estrela no repositório
+    🔧 contribua com código
+    🐞 reporte bugs
